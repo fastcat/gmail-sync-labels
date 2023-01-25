@@ -20,7 +20,7 @@ newconfig = None
 #FIXME: refactor to separate file to share code
 class Gmail(imaplib.IMAP4_SSL):
     def __init__(self, cfg):
-        ctx = ssl.SSLContext(ssl.PROTOCOL_TLSv1)
+        ctx = ssl.SSLContext(ssl.PROTOCOL_TLS_CLIENT)
         ctx.verify_mode = ssl.CERT_REQUIRED
         ctx.set_default_verify_paths()
         # XXX: alternative, should work too:
