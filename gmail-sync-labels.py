@@ -187,7 +187,7 @@ class MaildirDatabase(mailbox.Maildir):
         # this is not perfect, comments might have strings that look like message ids
         # would need a full BNF parser for the productions in RFC2822 to handle this exactly right
         # need this because message ids gmail returns on queries have the comments stripped off
-        extractmsgid = re.compile('.*?(<.*>).*')
+        extractmsgid = re.compile('(?s).*?(?-s:<.*>).*')
         
         # track what message keys still exist, remove others from the cache
         seenkeys = set()
