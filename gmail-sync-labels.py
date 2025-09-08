@@ -66,7 +66,7 @@ class Gmail(imaplib.IMAP4_SSL):
 
         assert 'X-GM-EXT-1' in self.capabilities
 
-        self.__message_from_imapid_re = re.compile('(\d+) \(X-GM-MSGID (\d+) X-GM-THRID (\d+) X-GM-LABELS \((.*)\) RFC822 {(\d+)}')
+        self.__message_from_imapid_re = re.compile(r'(\d+) \(X-GM-MSGID (\d+) X-GM-THRID (\d+) X-GM-LABELS \((.*)\) RFC822 {(\d+)}')
 
     def selectfolder(self, folder, readonly=True):
         resp = self.select(folder, readonly)
@@ -88,7 +88,7 @@ class Gmail(imaplib.IMAP4_SSL):
         assert resp[0] == 'OK'
         msglist = resp[1]
 
-        headersexp = re.compile('(\d+) \(X-GM-MSGID (\d+)\)')
+        headersexp = re.compile(r'(\d+) \(X-GM-MSGID (\d+)\)')
 
         print(' .. done')
         for msg in msglist:
@@ -187,7 +187,7 @@ class MaildirDatabase(mailbox.Maildir):
         # this is not perfect, comments might have strings that look like message ids
         # would need a full BNF parser for the productions in RFC2822 to handle this exactly right
         # need this because message ids gmail returns on queries have the comments stripped off
-        extractmsgid = re.compile('(?s).*?((?-s:<.*>)).*')
+        extractmsgid = re.compile(r'(?s).*?((?-s:<.*>)).*')
         
         # track what message keys still exist, remove others from the cache
         seenkeys = set()
@@ -316,7 +316,7 @@ def download_labels(gmail, total):
      ...
     ]
     """
-    regexp = re.compile('(\d+) \(X-GM-THRID (\d+) X-GM-MSGID (\d+) X-GM-LABELS \((.*)\) BODY\[HEADER.FIELDS \(MESSAGE-ID\)\] {(\d+)}')
+    regexp = re.compile(r'(\d+) \(X-GM-THRID (\d+) X-GM-MSGID (\d+) X-GM-LABELS \((.*)\) BODY\[HEADER.FIELDS \(MESSAGE-ID\)\] {(\d+)}')
     
     # gmail doesn't like doing large fetches, so batch it up into chunks
     chunk_size = 1000
